@@ -10,7 +10,7 @@ export const initPassport = () => {
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_PWD,
-        callbackURL: "/api/auth/google/callback",
+        callbackURL: process.env.GOOGLE_CALLBACK_URL,
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
@@ -36,21 +36,22 @@ export const initPassport = () => {
   );
 };
 
+const cookieOptions = {
+  httpOnly: true,
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+  secure: process.env.NODE_ENV === "production",
+};
+
 export const googleCallback = async (req, res) => {
   try {
     const user = req.user;
     const token = await genToken(user._id);
-    res.cookie("token", token, {
-      httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV === "production",
-    });
-    // redirect to frontend after successful login
-    res.redirect("https://linkedin-clone-kmbx.onrender.com");
+    res.cookie("token", token, cookieOptions);
+    res.redirect(process.env.CLIENT_URL);
   } catch (err) {
     console.log(err);
-    res.redirect("https://linkedin-clone-kmbx.onrender.com/login");
+    res.redirect(`${process.env.CLIENT_URL}/login`);
   }
 };
 
@@ -83,12 +84,7 @@ export const signUp = async (req, res) => {
       password: hashedPassword,
     });
     let token = await genToken(user._id);
-    res.cookie("token", token, {
-      httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV === "production",
-    });
+    res.cookie("token", token, cookieOptions);
     return res.status(201).json(user);
   } catch (error) {
     console.log(error);
@@ -111,12 +107,7 @@ export const login = async (req, res) => {
     }
 
     let token = await genToken(user._id);
-    res.cookie("token", token, {
-      httpOnly: true,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      sameSite: "strict",
-      secure: process.env.NODE_ENV === "production",
-    });
+    res.cookie("token", token, cookieOptions);
     return res.status(200).json(user);
   } catch (error) {
     console.log(error);
