@@ -56,9 +56,8 @@ app.use(
   })
 );
 app.use(passport.initialize());
-
 app.get("/", (req, res) => {
-  res.send("Hello World");
+  res.redirect("https://linkedin-clone-kmbx.onrender.com");
 });
 
 app.use("/api/auth", authRouter);
