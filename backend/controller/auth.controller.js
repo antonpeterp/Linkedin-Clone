@@ -39,8 +39,8 @@ export const initPassport = () => {
 const cookieOptions = {
   httpOnly: true,
   maxAge: 7 * 24 * 60 * 60 * 1000,
-  sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
-  secure: process.env.NODE_ENV === "production",
+  sameSite: process.env.NODE_EN === "production" ? "none" : "strict",
+  secure: process.env.NODE_EN === "production",
 };
 
 export const googleCallback = async (req, res) => {
