@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import Profile from "./pages/Profile";
 import { UserDataContext } from "../src/context/UserContext.jsx";
 
 const App = () => {
@@ -21,6 +22,10 @@ const App = () => {
       <Route
         path="/login"
         element={userData ? <Navigate to="/" /> : <Login />}
+      />
+      <Route
+        path="/profile/:userId"
+        element={userData ? <Profile /> : <Navigate to={"/login"} />}
       />
     </Routes>
   );

@@ -12,6 +12,7 @@ import { FaBriefcase } from "react-icons/fa6";
 import { AiFillMessage } from "react-icons/ai";
 import { BsBellFill } from "react-icons/bs";
 import axios from "axios";
+import Home from "../pages/Home.jsx";
 
 const Nav = () => {
   const navigate = useNavigate();
@@ -105,7 +106,10 @@ const Nav = () => {
       </div>
 
       <div className="flex justify-center items-center gap-[30px]">
-        <div className="flex-col flex items-center justify-center">
+        <div
+          className="flex-col flex items-center justify-center cursor-pointer"
+          onClick={() => navigate("/")}
+        >
           <IoHomeSharp />
           Home
         </div>
@@ -196,7 +200,13 @@ const Nav = () => {
             <div className="text-[20px] font-semibold text-gray-700">
               {`${userData.firstName} ${userData.lastName}`}
             </div>
-            <button className="w-[100%] h-[40px] rounded-full border-2 border-[#2dc0ff] text-[#2dc0ff]">
+            <button
+              className="w-[100%] h-[40px] rounded-full border-2 border-[#2dc0ff] text-[#2dc0ff]"
+              onClick={() => {
+                navigate(`/profile/${userData._id}`);
+                setShowPopup(false);
+              }}
+            >
               View Profile
             </button>
             <div className="w-full h-[1px] bg-gray-700"></div>
