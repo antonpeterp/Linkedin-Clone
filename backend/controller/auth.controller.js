@@ -47,10 +47,10 @@ export const googleCallback = async (req, res) => {
       secure: process.env.NODE_ENV === "production",
     });
     // redirect to frontend after successful login
-    res.redirect("http://localhost:5173");
+    res.redirect("https://linkedin-clone-kmbx.onrender.com");
   } catch (err) {
     console.log(err);
-    res.redirect("http://localhost:5173/login");
+    res.redirect("https://linkedin-clone-kmbx.onrender.com/login");
   }
 };
 
