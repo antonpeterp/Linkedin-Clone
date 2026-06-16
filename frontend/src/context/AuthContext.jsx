@@ -3,7 +3,7 @@ import React, { createContext, useState } from "react";
 export const authDataContext = createContext();
 
 const AuthContext = ({ children }) => {
-  const serverURL = "http://localhost:5000";
+  const serverURL = process.env.BACKEND_URI;
 
   let value = {
     serverURL,
