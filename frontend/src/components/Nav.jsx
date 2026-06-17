@@ -21,13 +21,13 @@ const Nav = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const { userData, setUserData } = useContext(UserDataContext);
-  const { serverUrl } = useContext(authDataContext);
+  const { serverURL } = useContext(authDataContext);
   const { socket } = useContext(SocketContext);
 
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const res = await axios.get(serverUrl + "/api/notifications", {
+        const res = await axios.get(serverURL + "/api/notifications", {
           withCredentials: true,
         });
         setNotifications(Array.isArray(res.data) ? res.data : []);
@@ -56,7 +56,7 @@ const Nav = () => {
     if (!showNotifications && unreadCount > 0) {
       try {
         await axios.patch(
-          serverUrl + "/api/notifications/read-all",
+          serverURL + "/api/notifications/read-all",
           {},
           { withCredentials: true }
         );
@@ -69,7 +69,7 @@ const Nav = () => {
 
   const handleSignOut = async () => {
     try {
-      await axios.get(serverUrl + "/api/auth/logout", {
+      await axios.get(serverURL + "/api/auth/logout", {
         withCredentials: true,
       });
       setUserData(null);

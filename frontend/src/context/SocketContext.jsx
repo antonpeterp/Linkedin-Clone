@@ -1,10 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { UserDataContext } from "./UserContext.jsx";
+import { authDataContext } from "../context/AuthContext.jsx";
 
 export const SocketContext = createContext();
 
 const SocketContextProvider = ({ children }) => {
+  const { serverURL } = useContext(authDataContext);
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const { userData } = useContext(UserDataContext);
@@ -12,7 +14,7 @@ const SocketContextProvider = ({ children }) => {
   useEffect(() => {
     if (!userData) return;
 
-    const newSocket = io("http://localhost:5000", {
+    const newSocket = io(serverURL, {
       withCredentials: true,
     });
 
